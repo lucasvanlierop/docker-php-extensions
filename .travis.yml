@@ -5,6 +5,7 @@ services:
 script:
   - docker build gd/alpine -t lucasvanlierop/php-gd-alpine && docker run --rm lucasvanlierop/php-gd-alpine php -r "if (extension_loaded('gd') === false) exit(1);"
   - docker build intl/alpine -t lucasvanlierop/php-intl-alpine && docker run --rm lucasvanlierop/php-intl-alpine php -r "if (extension_loaded('intl') === false) exit(1);"
+  - docker build soap/alpine -t lucasvanlierop/php-soap-alpine && docker run --rm lucasvanlierop/php-soap-alpine php -r "if (extension_loaded('soap') === false) exit(1);"
 
 branches:
   only:

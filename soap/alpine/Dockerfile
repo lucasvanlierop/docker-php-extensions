@@ -1,0 +1,8 @@
+FROM php:7.1.5-fpm-alpine
+
+RUN apk update \
+
+# Install PHP SOAP extension
+    && apk add \
+        libxml2-dev \
+    && docker-php-ext-install -j "$(nproc)" soap
