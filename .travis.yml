@@ -3,11 +3,13 @@ services:
 
 # Todo: automate this
 script:
+  # PHP 5.6
+  - docker build 5.6/alpine/mongo -t lucasvanlierop/php-5.6-alpine-ext-mongo && docker run --rm lucasvanlierop/php-5.6-alpine-ext-mongo php -r "if (extension_loaded('mongo') === false) exit(1);"
+  # PHP 7.1
   - docker build gd/alpine -t lucasvanlierop/php-gd-alpine && docker run --rm lucasvanlierop/php-gd-alpine php -r "if (extension_loaded('gd') === false) exit(1);"
   - docker build intl/alpine -t lucasvanlierop/php-intl-alpine && docker run --rm lucasvanlierop/php-intl-alpine php -r "if (extension_loaded('intl') === false) exit(1);"
   - docker build mcrypt/alpine -t lucasvanlierop/php-mcrypt-alpine && docker run --rm lucasvanlierop/php-mcrypt-alpine php -r "if (extension_loaded('mcrypt') === false) exit(1);"
   - docker build memcached/alpine -t lucasvanlierop/php-memcached-alpine && docker run --rm lucasvanlierop/php-memcached-alpine php -r "if (extension_loaded('memcached') === false) exit(1);"
-  - docker build mongo/alpine -t lucasvanlierop/php-mongo-alpine && docker run --rm lucasvanlierop/php-mongo-alpine php -r "if (extension_loaded('mongo') === false) exit(1);"
   - docker build opcache/alpine -t lucasvanlierop/php-opcache-alpine && docker run --rm lucasvanlierop/php-opcache-alpine php -r "if (extension_loaded('Zend OPcache') === false) exit(1);"
   - docker build pdo_mysql/alpine -t lucasvanlierop/php-pdo_mysql-alpine && docker run --rm lucasvanlierop/php-pdo_mysql-alpine php -r "if (extension_loaded('pdo_mysql') === false) exit(1);"
   - docker build soap/alpine -t lucasvanlierop/php-soap-alpine && docker run --rm lucasvanlierop/php-soap-alpine php -r "if (extension_loaded('soap') === false) exit(1);"
