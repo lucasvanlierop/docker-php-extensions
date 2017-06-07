@@ -1,0 +1,7 @@
+FROM php:7.1.5-fpm-alpine
+
+RUN apk update \
+
+# Install PHP Mcrypt extension
+    && apk add --no-cache libmcrypt-dev \
+    && docker-php-ext-install -j "$(nproc)" mcrypt
