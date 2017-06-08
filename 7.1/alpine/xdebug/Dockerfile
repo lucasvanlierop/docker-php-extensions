@@ -10,4 +10,5 @@ RUN apk update \
         make \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && apk del .build-dependencies
+    && apk del .build-dependencies \
+    && php -m | grep xdebug

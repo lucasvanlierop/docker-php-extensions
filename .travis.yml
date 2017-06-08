@@ -4,17 +4,17 @@ services:
 # Todo: automate this
 script:
   # PHP 5.6
-  - docker build 5.6/alpine/mongo -t lucasvanlierop/php-5.6-alpine-ext-mongo && docker run --rm lucasvanlierop/php-5.6-alpine-ext-mongo php -r "if (extension_loaded('mongo') === false) exit(1);"
+  - docker build 5.6/alpine/mongo
   # PHP 7.1
-  - docker build 7.1/alpine/gd -t lucasvanlierop/php-7.1-alpine-ext-gd && docker run --rm lucasvanlierop/php-7.1-alpine-ext-gd php -r "if (extension_loaded('gd') === false) exit(1);"
-  - docker build 7.1/alpine/intl -t lucasvanlierop/php-7.1-alpine-ext-intl && docker run --rm lucasvanlierop/php-7.1-alpine-ext-intl php -r "if (extension_loaded('intl') === false) exit(1);"
-  - docker build 7.1/alpine/mcrypt -t lucasvanlierop/php-7.1-alpine-ext-mcrypt && docker run --rm lucasvanlierop/php-7.1-alpine-ext-mcrypt php -r "if (extension_loaded('mcrypt') === false) exit(1);"
-  - docker build 7.1/alpine/memcached -t lucasvanlierop/php-7.1-alpine-ext-memcached && docker run --rm lucasvanlierop/php-7.1-alpine-ext-memcached php -r "if (extension_loaded('memcached') === false) exit(1);"
-  - docker build 7.1/alpine/opcache -t lucasvanlierop/php-7.1-alpine-ext-opcache && docker run --rm lucasvanlierop/php-7.1-alpine-ext-opcache php -r "if (extension_loaded('Zend OPcache') === false) exit(1);"
-  - docker build 7.1/alpine/pdo_mysql -t lucasvanlierop/php-7.1-alpine-ext-pdo_mysql && docker run --rm lucasvanlierop/php-7.1-alpine-ext-pdo_mysql php -r "if (extension_loaded('pdo_mysql') === false) exit(1);"
-  - docker build 7.1/alpine/soap -t lucasvanlierop/php-7.1-alpine-ext-soap && docker run --rm lucasvanlierop/php-7.1-alpine-ext-soap php -r "if (extension_loaded('soap') === false) exit(1);"
-  - docker build 7.1/alpine/zip -t lucasvanlierop/php-7.1-alpine-ext-zip && docker run --rm lucasvanlierop/php-7.1-alpine-ext-zip php -r "if (extension_loaded('zip') === false) exit(1);"
-  - docker build 7.1/alpine/xdebug -t lucasvanlierop/php-7.1-alpine-ext-xdebug && docker run --rm lucasvanlierop/php-7.1-alpine-ext-xdebug php -r "if (extension_loaded('xdebug') === false) exit(1);"
+  - docker build 7.1/alpine/gd
+  - docker build 7.1/alpine/intl
+  - docker build 7.1/alpine/mcrypt
+  - docker build 7.1/alpine/memcached
+  - docker build 7.1/alpine/opcache
+  - docker build 7.1/alpine/pdo_mysql
+  - docker build 7.1/alpine/soap
+  - docker build 7.1/alpine/zip
+  - docker build 7.1/alpine/xdebug
 
 branches:
   only:

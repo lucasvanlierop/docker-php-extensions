@@ -17,4 +17,5 @@ RUN apk update \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gd \
-    && apk del gd_dependencies
+    && apk del gd_dependencies \
+    && php -m | grep gd

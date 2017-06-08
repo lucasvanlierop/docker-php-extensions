@@ -16,4 +16,5 @@ RUN apk update \
         cyrus-sasl-dev \
         libmemcached-dev \
         zlib-dev \
-    && docker-php-ext-install memcached
+    && docker-php-ext-install memcached \
+    && php -m | grep memcached

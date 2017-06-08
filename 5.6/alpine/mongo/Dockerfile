@@ -11,4 +11,5 @@ RUN apk update \
         make \
     && pecl install mongo \
     && docker-php-ext-enable mongo \
-    && apk del .mongodb-ext-build-deps
+    && apk del .mongodb-ext-build-deps \
+    && php -m | grep mongo
