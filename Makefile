@@ -50,7 +50,6 @@ DOCKER_IMAGE_PREFIX := lucasvanlierop/php-extensions
 %/.published: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
 %/.published: %/.built
 	$(TARGET_MARKER_START)
-	echo $(DOCKER_IMAGE)
 	docker push $(DOCKER_IMAGE)
 	touch $(TARGET)
 	$(TARGET_MARKER_END)
