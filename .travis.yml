@@ -1,44 +1,9 @@
 services:
   - docker
 
-# Todo: automate this
 script:
-  # PHP 5.6 - Alpine
-  - docker build 5.6/alpine/bcmath
-  - docker build 5.6/alpine/mongo
-  - docker build 5.6/alpine/pcntl
-  # PHP 7.0 - Debian
-  - docker build 7.0/debian/bcmath
-  - docker build 7.0/debian/gearman
-  - docker build 7.0/debian/gnupg
-  - docker build 7.0/debian/imap
-  - docker build 7.0/debian/mcrypt
-  - docker build 7.0/debian/memcached
-  - docker build 7.0/debian/pcntl
-  - docker build 7.0/debian/pdo_mysql
-  - docker build 7.0/debian/zip
-  # PHP 7.1 - Alpine
-  - docker build 7.1/alpine/apcu
-  - docker build 7.1/alpine/gd
-  - docker build 7.1/alpine/intl
-  - docker build 7.1/alpine/mcrypt
-  - docker build 7.1/alpine/memcached
-  - docker build 7.1/alpine/opcache
-  - docker build 7.1/alpine/pdo_mysql
-  - docker build 7.1/alpine/soap
-  - docker build 7.1/alpine/zip
-  - docker build 7.1/alpine/xdebug
-  # PHP 7.2 - Alpine
-  - docker build 7.2/alpine/apcu
-  - docker build 7.2/alpine/gd
-  - docker build 7.2/alpine/intl
-  - docker build 7.2/alpine/mcrypt
-  - docker build 7.2/alpine/memcached
-  - docker build 7.2/alpine/opcache
-  - docker build 7.2/alpine/pdo_mysql
-  - docker build 7.2/alpine/soap
-  - docker build 7.2/alpine/zip
-  - docker build 7.2/alpine/xdebug
+    - make -j --output-sync=recurse base-images
+    - make -j --output-sync=recurse publish
 
 branches:
   only:
