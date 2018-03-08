@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-alpine
+FROM php:7.1-alpine
 
 RUN apk add --update --no-cache \
 # required for imagemagick
