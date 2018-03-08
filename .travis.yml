@@ -2,7 +2,6 @@ services:
   - docker
 
 script:
-    - make -j --output-sync=recurse base-images
     - make -j --output-sync=recurse publish
 
 branches:
