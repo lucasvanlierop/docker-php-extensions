@@ -28,6 +28,17 @@ script:
   - docker build 7.1/alpine/soap
   - docker build 7.1/alpine/zip
   - docker build 7.1/alpine/xdebug
+  # PHP 7.2 - Alpine
+  - docker build 7.2/alpine/apcu
+  - docker build 7.2/alpine/gd
+  - docker build 7.2/alpine/intl
+  - docker build 7.2/alpine/mcrypt
+  - docker build 7.2/alpine/memcached
+  - docker build 7.2/alpine/opcache
+  - docker build 7.2/alpine/pdo_mysql
+  - docker build 7.2/alpine/soap
+  - docker build 7.2/alpine/zip
+  - docker build 7.2/alpine/xdebug
 
 branches:
   only:
