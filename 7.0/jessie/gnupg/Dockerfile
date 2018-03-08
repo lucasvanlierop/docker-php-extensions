@@ -1,4 +1,4 @@
-FROM php:7.0-cli
+FROM php:7.0
 
 # Install
 ENV DEBIAN_FRONTEND=noninteractive

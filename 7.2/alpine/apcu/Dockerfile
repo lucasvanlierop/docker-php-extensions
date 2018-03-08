@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.2-alpine
 
 # Install APCU PHP extensions
 RUN apk --update --no-cache add \
