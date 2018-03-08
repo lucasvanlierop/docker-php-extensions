@@ -1,6 +1,9 @@
 services:
   - docker
 
+env:
+  - CI=travis
+
 before_install:
   # Update GNU Make to a version that supports output grouping of parallel executed targets
   - |
@@ -16,6 +19,11 @@ before_install:
 
 before_script:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+ # Export travis interal functions for folding and timing based on: http://www.garbers.co.za/2017/11/01/code-folding-and-timing-in-travis-ci/
+  - export -f travis_nanoseconds
+  - export -f travis_fold
+  - export -f travis_time_start
+  - export -f travis_time_finish
 
 script:
     - make -j --output-sync=recurse publish
