@@ -1,7 +1,7 @@
 
-TARGET_TIMER_ID_FILE=/tmp/timer-id-$(shell echo "$(TARGET)" | sed "s/[^[:alpha:]]//g")
-TARGET_TIME_FILE=/tmp/time-$(shell echo "$(TARGET)" | sed "s/[^[:alpha:]]//g")
-TRAVIS_PRINTABLE_MARKER_NAME=$(shell echo "$(TARGET)" | sed "s/[^[:alpha:]]/-/g")
+TARGET_TIMER_ID_FILE=/tmp/timer-id-$(shell echo "$(TARGET)" | sed "s/[^[:alnum:]]//g")
+TARGET_TIME_FILE=/tmp/time-$(shell echo "$(TARGET)" | sed "s/[^[:alnum:]]//g")
+TRAVIS_PRINTABLE_MARKER_NAME=$(shell echo "$(TARGET)" | sed "s/[^[:alnum:]]/-/g")
 TARGET_MARKER_START = travis_fold start "$(TRAVIS_PRINTABLE_MARKER_NAME)" && \
 	travis_time_start && \
 	echo $$travis_timer_id > $(TARGET_TIMER_ID_FILE) && \
