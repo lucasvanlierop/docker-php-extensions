@@ -32,7 +32,6 @@ DOCKER_IMAGE_PREFIX := lucasvanlierop/php-extensions
 	$$(DOCKER_PHP_BASE_IMAGE_PULLED) \
 	$$(shell find $$(@D) -type f -not -name .built -not -name .published)
 	$(TARGET_MARKER_START)
-	echo $(DOCKER_PHP_BASE_IMAGE_PULLED)
 	-docker pull $(DOCKER_IMAGE)
 	docker build --cache-from $(DOCKER_IMAGE) -t $(DOCKER_IMAGE) $(@D)
 	touch $(TARGET)
