@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 # Ensure targets are deleted when an error occurred executing the recipe
 .DELETE_ON_ERROR:
 
