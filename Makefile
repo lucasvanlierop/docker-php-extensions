@@ -13,7 +13,9 @@ TARGET=$@
 TARGET_MARKER_START = @echo "starting: $(TARGET)"
 TARGET_MARKER_END = @echo "ended $(TARGET)"
 
-ifeq ($(TRAVIS),on)
+CI ?=
+
+ifeq ($(CI),travis)
 include make/travis.mk
 endif
 
