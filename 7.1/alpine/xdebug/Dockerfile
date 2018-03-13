@@ -1,14 +1,16 @@
 FROM php:7.1-alpine
 
-RUN apk update \
+ENV PHP_EXT_XDEBUG_INSTALL_ONLY_DEPENDENCIES='\
+    autoconf \
+    g++ \
+    make \
+    '
 
-# Install PHP Xdebug extension
+RUN apk update \
     && apk add \
-    --virtual .build-dependencies \
-        autoconf \
-        g++ \
-        make \
+        ${PHP_EXT_XDEBUG_INSTALL_ONLY_DEPENDENCIES} \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && apk del .build-dependencies \
+    && apk del \
+        ${PHP_EXT_XDEBUG_INSTALL_ONLY_DEPENDENCIES} \
     && php -m | grep xdebug
