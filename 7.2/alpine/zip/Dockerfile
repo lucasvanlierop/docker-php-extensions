@@ -1,9 +1,7 @@
 FROM php:7.2-alpine
 
+ENV PHP_EXT_ZIP_DEPENDENCIES=zlib-dev
+
 RUN apk update \
-
-# Install PHP Zip extension
-    && apk add zlib-dev \
-    && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) zip \
-    && php -m | grep zip
-
+    && apk add ${PHP_EXT_ZIP_DEPENDENCIES} \
+    && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) zip && php -m | grep zip
