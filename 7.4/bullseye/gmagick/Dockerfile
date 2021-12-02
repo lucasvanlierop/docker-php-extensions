@@ -3,7 +3,7 @@ FROM php:7.4-bullseye as builder
 RUN mkdir /extension
 WORKDIR /extension
 
-COPY ./version version
+COPY ./version ./
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -25,6 +25,7 @@ RUN cd /tmp \
 	&& rm -rf /tmp/gmagick*
 
 COPY install_requirements.sh /extension/
+COPY ./install* /extension/
 
 FROM alpine:3.15.0
 COPY --from=builder /extension/ /extension/
