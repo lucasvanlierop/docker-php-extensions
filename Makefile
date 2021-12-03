@@ -19,38 +19,31 @@ ifeq ($(CI),travis)
 include make/travis.mk
 endif
 
-DOCKER_IMAGE_PREFIX := lucasvanlierop/php-extensions
+DOCKER_IMAGE_PREFIX := etriasnl/php-extensions
 
-%/.pulled: DOCKER_IMAGE = php:$(subst /,-,$*)
-%/.pulled:
-	$(TARGET_MARKER_START)
-	docker pull $(DOCKER_IMAGE)
-	touch $(TARGET)
-	$(TARGET_MARKER_END)
-
+%/.built: VERSION = $(shell cat ./$(@D)/version)
 %/.built: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
-%/.built: DOCKER_PHP_BASE_IMAGE_PULLED = $(dir $(@D)).pulled
-%/.built: \
-	$$(DOCKER_PHP_BASE_IMAGE_PULLED) \
-	$$(shell find $$(@D) -type f -not -name .built -not -name .published)
+%/.built:
 	$(TARGET_MARKER_START)
-	-docker pull $(DOCKER_IMAGE)
-	docker build --cache-from $(DOCKER_IMAGE) -t $(DOCKER_IMAGE) $(@D)
-	touch $(TARGET)
+	@echo VERSION: ${VERSION}
+	@echo $(DOCKER_IMAGE)
+	docker build -t $(DOCKER_IMAGE)-$(VERSION) $(@D)
 	$(TARGET_MARKER_END)
 
-
+%/.published: VERSION = $(shell cat ./$(@D)/version)
 %/.published: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
 %/.published: %/.built
 	$(TARGET_MARKER_START)
-	docker push $(DOCKER_IMAGE)
-	touch $(TARGET)
+	docker push $(DOCKER_IMAGE)-$(VERSION)
 	$(TARGET_MARKER_END)
 
 
 .DEFAULT_GOAL := publish
-publish: \
-	$(shell find . -name Dockerfile | sed 's/Dockerfile/.published/')
+ifdef target
+    publish: ${target}/.published
+else
+   	publish: $(shell find . -name Dockerfile | sed 's/Dockerfile/.published/')
+endif
 	$(TARGET_MARKER_START)
-	$(TARGET_MARKER_END)
+	$(TARGET_MARKE	R_END)
 
