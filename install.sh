@@ -1,21 +1,21 @@
 #!/bin/bash
 
-REQUIREMENTS="./install_requirements.sh"
+REQUIREMENTS=$(dirname ${BASH_SOURCE})"/install_requirements.sh"
 
+echo $REQUIREMENTS
 if test -f $REQUIREMENTS; then
     bash $REQUIREMENTS
 fi
 
 
-for extension in /extension/*.so
+for extension in $(dirname ${BASH_SOURCE})/*.so
 do
- echo "Enabling extension $extension"
- cp $extension $(php -r "echo ini_get ('extension_dir');")/
  filename=$(basename -- "$extension")
  module="${filename%.*}"
+ echo "Enabling extension $filename"
 
- echo "extension = $module;"\
-     >> /usr/local/etc/php/conf.d/extensions.ini
+ cp $extension $(php -r "echo ini_get ('extension_dir');")/
+ docker-php-ext-enable $module
 done
 
 

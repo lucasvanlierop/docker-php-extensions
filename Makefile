@@ -23,18 +23,22 @@ DOCKER_IMAGE_PREFIX := etriasnl/php-extensions
 
 %/.built: VERSION = $(shell cat ./$(@D)/version)
 %/.built: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
+%/.built: DOCKER_TAG = $(shell echo ${DOCKER_IMAGE}-${VERSION} | tr '[:upper:]' '[:lower:]')
 %/.built:
 	$(TARGET_MARKER_START)
 	@echo VERSION: ${VERSION}
 	@echo $(DOCKER_IMAGE)
-	docker build -t $(DOCKER_IMAGE)-$(VERSION) $(@D)
+	cp install.sh $(@D)
+	podman build -t $(DOCKER_TAG) $(@D)
+	rm $(@D)/install.sh
 	$(TARGET_MARKER_END)
 
 %/.published: VERSION = $(shell cat ./$(@D)/version)
 %/.published: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
+%/.published: DOCKER_TAG = $(shell echo ${DOCKER_IMAGE}-${VERSION} | tr '[:upper:]' '[:lower:]')
 %/.published: %/.built
 	$(TARGET_MARKER_START)
-	docker push $(DOCKER_IMAGE)-$(VERSION)
+	podman push $(DOCKER_TAG)
 	$(TARGET_MARKER_END)
 
 
@@ -45,5 +49,5 @@ else
    	publish: $(shell find . -name Dockerfile | sed 's/Dockerfile/.published/')
 endif
 	$(TARGET_MARKER_START)
-	$(TARGET_MARKE	R_END)
+	$(TARGET_MARKER_END)
 

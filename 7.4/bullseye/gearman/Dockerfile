@@ -7,22 +7,21 @@ COPY ./version ./
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    graphicsmagick=1.4+really1.3.36+hg16481-2 \
-	libgraphicsmagick1-dev=1.4+really1.3.36+hg16481-2 \
-    && rm -rf /var/lib/apt/lists/*
+    libgearman-dev=1.1.19.1+ds-2+b2 && \
+    rm -rf /var/lib/apt/lists/*
 
-
+# Install APCU PHP extensions
 RUN cd /tmp \
     && export VERSION=$(cat /extension/version) \
-	&& curl https://pecl.php.net/get/gmagick-$VERSION.tgz --output /tmp/gmagick.tar.gz \
-	&& tar zxvf gmagick.tar.gz \
-	&& cd gmagick-* \
+	&& curl -L https://github.com/php/pecl-networking-gearman/archive/refs/tags/gearman-${VERSION}.tar.gz --output /tmp/gearman.tar.gz \
+	&& tar -xf gearman.tar.gz \
+	&& cd pecl-networking-gearman-gearman-* \
 	&& phpize \
 	&& ./configure \
 	&& make \
 	&& make install \
-	&& cp ./modules/gmagick.so /extension \
-	&& rm -rf /tmp/gmagick*
+	&& cp ./modules/gearman.so /extension \
+	&& rm -rf /tmp/gearman*
 
 COPY ./install* /extension/
 
