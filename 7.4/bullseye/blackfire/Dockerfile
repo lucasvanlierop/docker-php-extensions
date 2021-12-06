@@ -5,12 +5,13 @@ WORKDIR /extension
 
 COPY ./version ./
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    gnupg2 \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN bash -c "$(curl -L https://installer.blackfire.io/installer.sh)"
+RUN version=$(cat /extension/version) \
+    && architecture=$(uname -m) \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/$architecture/$version \
+    && mkdir -p /tmp/blackfire \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
+    && cp /tmp/blackfire/blackfire-*.so /extension \
+    && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
 COPY ./install* /extension/
 
