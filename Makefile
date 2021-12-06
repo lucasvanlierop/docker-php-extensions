@@ -29,7 +29,7 @@ DOCKER_IMAGE_PREFIX := etriasnl/php-extensions
 	@echo VERSION: ${VERSION}
 	@echo $(DOCKER_IMAGE)
 	cp install.sh $(@D)
-	podman build -t $(DOCKER_TAG) $(@D)
+	docker build --progress plain -t $(DOCKER_TAG) $(@D)
 	rm $(@D)/install.sh
 	$(TARGET_MARKER_END)
 
@@ -38,7 +38,7 @@ DOCKER_IMAGE_PREFIX := etriasnl/php-extensions
 %/.published: DOCKER_TAG = $(shell echo ${DOCKER_IMAGE}-${VERSION} | tr '[:upper:]' '[:lower:]')
 %/.published: %/.built
 	$(TARGET_MARKER_START)
-	podman push $(DOCKER_TAG)
+	docker push $(DOCKER_TAG)
 	$(TARGET_MARKER_END)
 
 
