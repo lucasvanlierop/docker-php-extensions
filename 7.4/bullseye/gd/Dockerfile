@@ -7,9 +7,9 @@ COPY ./version ./
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    libfreetype6-dev \
-    libpng-dev \
-    libjpeg62-turbo-dev && \
+    libfreetype6-dev=2.10.4+dfsg-1 \
+    libpng-dev=1.6.37-3 \
+    libjpeg62-turbo-dev=1:2.0.6-4 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd \
