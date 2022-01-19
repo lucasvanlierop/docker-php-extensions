@@ -20,7 +20,7 @@ RUN docker-php-ext-configure gd \
 	--with-jpeg=/usr
 
 RUN docker-php-ext-install gd && \
-    cp $(php -r "echo ini_get ('extension_dir');")/gd.so ./ \
+    cp $(php -r "echo ini_get ('extension_dir');")/gd.so ./
 
 COPY ./install* ./
 
