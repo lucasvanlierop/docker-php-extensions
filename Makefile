@@ -13,12 +13,6 @@ TARGET=$@
 TARGET_MARKER_START = @echo "starting: $(TARGET)"
 TARGET_MARKER_END = @echo "ended $(TARGET)"
 
-CI ?=
-
-ifeq ($(CI),travis)
-include make/travis.mk
-endif
-
 DOCKER_IMAGE_PREFIX := etriasnl/php-extensions
 
 %/.built: VERSION = $(shell cat ./$(@D)/version)
