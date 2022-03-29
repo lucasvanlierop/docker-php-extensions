@@ -18,10 +18,7 @@ MAKEFLAGS += --warn-undefined-variables
 	echo "[PUBLISHING] ${DOCKER_TAG}"
 	docker push "${DOCKER_TAG}"
 
-ifdef ext
-	release: ${PHP_EXT_DIR}/${ext}/.releaser
-	publish: ${PHP_EXT_DIR}/${ext}/.publisher
-else
-	release: $(shell find "${PHP_EXT_DIR}" -name Dockerfile | sed 's/Dockerfile/.releaser/')
-	publish: $(shell find "${PHP_EXT_DIR}" -name Dockerfile | sed 's/Dockerfile/.publisher/')
-endif
+release: ${PHP_EXT_DIR}/${ext}/.releaser
+release-all: $(shell find "${PHP_EXT_DIR}" -name Dockerfile | sed 's/Dockerfile/.releaser/')
+publish: ${PHP_EXT_DIR}/${ext}/.publisher
+publish-all: $(shell find "${PHP_EXT_DIR}" -name Dockerfile | sed 's/Dockerfile/.publisher/')
