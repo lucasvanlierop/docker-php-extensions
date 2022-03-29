@@ -1,47 +1,27 @@
-SHELL=/bin/bash
-
-# Ensure targets are deleted when an error occurred executing the recipe
-.DELETE_ON_ERROR:
-
-# Allows usage of automatic variables in prerequisites
-.SECONDEXPANSION:
-
+PHP_EXT_DIR=7.4/bullseye
+DOCKER_IMAGE_PREFIX=etriasnl/php-extensions
 MAKEFLAGS += --warn-undefined-variables
 
-TARGET=$@
+%/.releaser: VERSION=$(shell cat "./${@D}/version")
+%/.releaser: DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}:$(subst /,-,$*)"
+%/.releaser: DOCKER_TAG=$(shell echo "${DOCKER_IMAGE}-${VERSION}" | tr '[:upper:]' '[:lower:]')
+%/.releaser:
+	echo "[RELEASING] ${DOCKER_TAG}"
+	cp install.sh.dist "${@D}/install.sh"
+	docker buildx build -t "${DOCKER_TAG}" "${@D}"
+	rm "${@D}/install.sh"
 
-TARGET_MARKER_START = @echo "starting: $(TARGET)"
-TARGET_MARKER_END = @echo "ended $(TARGET)"
+%/.publisher: VERSION=$(shell cat "./${@D}/version")
+%/.publisher: DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}:$(subst /,-,$*)"
+%/.publisher: DOCKER_TAG=$(shell echo "${DOCKER_IMAGE}-${VERSION}" | tr '[:upper:]' '[:lower:]')
+%/.publisher: %/.releaser
+	echo "[PUBLISHING] ${DOCKER_TAG}"
+	docker push "${DOCKER_TAG}"
 
-DOCKER_IMAGE_PREFIX := etriasnl/php-extensions
-
-%/.built: VERSION = $(shell cat ./$(@D)/version)
-%/.built: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
-%/.built: DOCKER_TAG = $(shell echo ${DOCKER_IMAGE}-${VERSION} | tr '[:upper:]' '[:lower:]')
-%/.built:
-	$(TARGET_MARKER_START)
-	@echo VERSION: ${VERSION}
-	@echo $(DOCKER_IMAGE)
-	cp install.sh $(@D)
-	docker build --progress plain -t $(DOCKER_TAG) $(@D)
-	rm $(@D)/install.sh
-	$(TARGET_MARKER_END)
-
-%/.published: VERSION = $(shell cat ./$(@D)/version)
-%/.published: DOCKER_IMAGE = $(DOCKER_IMAGE_PREFIX):$(subst /,-,$*)
-%/.published: DOCKER_TAG = $(shell echo ${DOCKER_IMAGE}-${VERSION} | tr '[:upper:]' '[:lower:]')
-%/.published: %/.built
-	$(TARGET_MARKER_START)
-	docker push $(DOCKER_TAG)
-	$(TARGET_MARKER_END)
-
-
-.DEFAULT_GOAL := publish
-ifdef target
-    publish: ${target}/.published
+ifdef ext
+	release: ${PHP_EXT_DIR}/${ext}/.releaser
+	publish: ${PHP_EXT_DIR}/${ext}/.publisher
 else
-   	publish: $(shell find . -name Dockerfile | sed 's/Dockerfile/.published/')
+	release: $(shell find "${PHP_EXT_DIR}" -name Dockerfile | sed 's/Dockerfile/.releaser/')
+	publish: $(shell find "${PHP_EXT_DIR}" -name Dockerfile | sed 's/Dockerfile/.publisher/')
 endif
-	$(TARGET_MARKER_START)
-	$(TARGET_MARKER_END)
-
