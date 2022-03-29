@@ -1,23 +1,21 @@
 PHP_EXT_DIR=7.4/bullseye
-DOCKER_IMAGE_PREFIX=etriasnl/php-extensions
+DOCKER_IMAGE=etriasnl/php-extensions
 MAKEFLAGS += --warn-undefined-variables
 
 exec_docker=docker run -it --rm -v "$(shell pwd):/app" -w /app
 
-%/.releaser: VERSION=$(shell cat "./${@D}/version")
-%/.releaser: DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}:$(subst /,-,$*)"
-%/.releaser: DOCKER_TAG=$(shell echo "${DOCKER_IMAGE}-${VERSION}" | tr '[:upper:]' '[:lower:]')
-%/.releaser:
+${PHP_EXT_DIR}/%/.releaser: VERSION=$(subst /,-,${@D})-$(shell cat "${@D}/version" | tr '[:upper:]' '[:lower:]')
+${PHP_EXT_DIR}/%/.releaser: DOCKER_TAG=${DOCKER_IMAGE}:${VERSION}
+${PHP_EXT_DIR}/%/.releaser:
 	echo "[RELEASING] ${DOCKER_TAG}"
-	cp install.sh.dist "${@D}/install.sh"
 	${exec_docker} hadolint/hadolint hadolint --ignore DL3059 "${@D}/Dockerfile"
+	cp install.sh.dist "${@D}/install.sh"
 	docker buildx build -t "${DOCKER_TAG}" "${@D}"
 	rm "${@D}/install.sh"
 
-%/.publisher: VERSION=$(shell cat "./${@D}/version")
-%/.publisher: DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}:$(subst /,-,$*)"
-%/.publisher: DOCKER_TAG=$(shell echo "${DOCKER_IMAGE}-${VERSION}" | tr '[:upper:]' '[:lower:]')
-%/.publisher: %/.releaser
+${PHP_EXT_DIR}/%/.publisher: VERSION=$(subst /,-,${@D})-$(shell cat "${@D}/version" | tr '[:upper:]' '[:lower:]')
+${PHP_EXT_DIR}/%/.publisher: DOCKER_TAG=${DOCKER_IMAGE}:${VERSION}
+${PHP_EXT_DIR}/%/.publisher: ${PHP_EXT_DIR}/%/.releaser
 	echo "[PUBLISHING] ${DOCKER_TAG}"
 	docker push "${DOCKER_TAG}"
 
