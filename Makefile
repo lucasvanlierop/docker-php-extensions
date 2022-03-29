@@ -2,12 +2,15 @@ PHP_EXT_DIR=7.4/bullseye
 DOCKER_IMAGE_PREFIX=etriasnl/php-extensions
 MAKEFLAGS += --warn-undefined-variables
 
+exec_docker=docker run -it --rm -v "$(shell pwd):/app" -w /app
+
 %/.releaser: VERSION=$(shell cat "./${@D}/version")
 %/.releaser: DOCKER_IMAGE="${DOCKER_IMAGE_PREFIX}:$(subst /,-,$*)"
 %/.releaser: DOCKER_TAG=$(shell echo "${DOCKER_IMAGE}-${VERSION}" | tr '[:upper:]' '[:lower:]')
 %/.releaser:
 	echo "[RELEASING] ${DOCKER_TAG}"
 	cp install.sh.dist "${@D}/install.sh"
+	${exec_docker} hadolint/hadolint hadolint --ignore DL3059 "${@D}/Dockerfile"
 	docker buildx build -t "${DOCKER_TAG}" "${@D}"
 	rm "${@D}/install.sh"
 
