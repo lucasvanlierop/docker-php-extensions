@@ -8,7 +8,7 @@ ${PHP_EXT_DIR}/%/.releaser: VERSION=$(subst /,-,${@D})-$(shell cat "${@D}/versio
 ${PHP_EXT_DIR}/%/.releaser: DOCKER_TAG=${DOCKER_IMAGE}:${VERSION}
 ${PHP_EXT_DIR}/%/.releaser:
 	echo "[RELEASING] ${DOCKER_TAG}"
-	${exec_docker} hadolint/hadolint hadolint --ignore DL3059 "${@D}/Dockerfile"
+	${exec_docker} hadolint/hadolint hadolint --ignore DL3059 "${@D}/Dockerfile" --no-fail
 	cp install.sh.dist "${@D}/install.sh"
 	docker buildx build -t "${DOCKER_TAG}" "${@D}"
 	rm "${@D}/install.sh"
