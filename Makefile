@@ -1,6 +1,7 @@
 PHP_EXT_DIR=7.4/bullseye
 DOCKER_IMAGE=etriasnl/php-extensions
-MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --warn-undefined-variables --always-make
+.DEFAULT_GOAL := _
 
 exec_docker=docker run -it --rm -v "$(shell pwd):/app" -w /app
 
