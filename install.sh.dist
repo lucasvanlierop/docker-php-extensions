@@ -14,5 +14,5 @@ for extension in $(dirname ${BASH_SOURCE})/*.so; do
     echo "Enabling extension $filename"
 
     cp $extension $(php -r "echo ini_get ('extension_dir');")/
-    docker-php-ext-enable $module
+    docker-php-ext-enable $module || exit 1
 done
