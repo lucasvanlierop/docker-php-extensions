@@ -1,11 +1,11 @@
 #!/bin/bash
 
-REQUIREMENTS=$(dirname ${BASH_SOURCE})"/install_requirements.sh"
+REQUIREMENTS=$(dirname "$0")"/install_requirements.sh"
 
 echo $REQUIREMENTS
 
 if test -f $REQUIREMENTS; then
-    bash $REQUIREMENTS
+    sh "$REQUIREMENTS" || exit 1
 fi
 
 for extension in $(dirname ${BASH_SOURCE})/*.so; do
