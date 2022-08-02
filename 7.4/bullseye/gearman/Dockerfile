@@ -1,6 +1,5 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
@@ -10,10 +9,9 @@ RUN apt-get update && \
     libgearman-dev=1.1.19.1+ds-2+b2 && \
     rm -rf /var/lib/apt/lists/*
 
-# Install APCU PHP extensions
+# hadolint ignore=DL3003
 RUN cd /tmp \
-    && export VERSION=$(cat /extension/version) \
-    && curl -L https://github.com/php/pecl-networking-gearman/archive/refs/tags/gearman-${VERSION}.tar.gz --output /tmp/gearman.tar.gz \
+    && curl -L "https://github.com/php/pecl-networking-gearman/archive/refs/tags/gearman-$(cat /extension/version).tar.gz" --output /tmp/gearman.tar.gz \
     && tar -xf gearman.tar.gz \
     && cd pecl-networking-gearman-gearman-* \
     && phpize \

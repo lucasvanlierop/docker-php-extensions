@@ -1,12 +1,11 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
 
 RUN docker-php-ext-install opcache && \
-  cp $(php -r "echo ini_get ('extension_dir');")/opcache.so ./
+    cp "$(php -r "echo ini_get ('extension_dir');")/opcache.so" ./
 COPY ./install* ./
 
 FROM alpine:3.15.0

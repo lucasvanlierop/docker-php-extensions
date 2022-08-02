@@ -1,11 +1,10 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
 
-
+# hadolint ignore=DL3008
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     libc-client-dev \
@@ -15,7 +14,7 @@ RUN apt-get update && \
 RUN docker-php-ext-configure calendar;
 
 RUN docker-php-ext-install calendar && \
-  cp $(php -r "echo ini_get ('extension_dir');")/calendar.so ./
+    cp "$(php -r "echo ini_get ('extension_dir');")/calendar.so" ./
 
 COPY ./install* ./
 

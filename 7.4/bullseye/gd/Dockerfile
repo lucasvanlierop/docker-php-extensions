@@ -1,10 +1,10 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
 
+# hadolint ignore=DL3008
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     libfreetype6 \
@@ -20,7 +20,7 @@ RUN docker-php-ext-configure gd \
     --with-jpeg=/usr
 
 RUN docker-php-ext-install gd && \
-    cp $(php -r "echo ini_get ('extension_dir');")/gd.so ./
+     cp "$(php -r "echo ini_get ('extension_dir');")/gd.so" ./
 
 COPY ./install* ./
 

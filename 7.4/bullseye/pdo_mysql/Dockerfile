@@ -1,12 +1,11 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
 
 RUN docker-php-ext-install pdo_mysql && \
-  cp $(php -r "echo ini_get ('extension_dir');")/pdo_mysql.so ./
+    cp "$(php -r "echo ini_get ('extension_dir');")/pdo_mysql.so" ./
 COPY ./install* ./
 
 FROM alpine:3.15.0

@@ -1,14 +1,12 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
 
-# Install APCU PHP extensions
+# hadolint ignore=DL3003
 RUN cd /tmp \
-    && export VERSION=$(cat /extension/version) \
-    && curl -L https://github.com/xdebug/xdebug/archive/refs/tags/${VERSION}.tar.gz --output /tmp/xdebug.tar.gz \
+    && curl -L "https://github.com/xdebug/xdebug/archive/refs/tags/$(cat /extension/version).tar.gz" --output /tmp/xdebug.tar.gz \
     && tar -xf xdebug.tar.gz \
     && cd xdebug-* \
     && phpize \

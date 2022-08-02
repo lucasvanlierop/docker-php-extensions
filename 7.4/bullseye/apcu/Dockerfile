@@ -1,14 +1,12 @@
 FROM php:7.4-bullseye as builder
 
-RUN mkdir /extension
 WORKDIR /extension
 
 COPY ./version ./
 
-# Install APCU PHP extensions
+# hadolint ignore=DL3003
 RUN cd /tmp \
-    && export VERSION=$(cat /extension/version) \
-    && curl -L https://github.com/krakjoe/apcu/archive/refs/tags/v${VERSION}.tar.gz --output /tmp/apcu.tar.gz \
+    && curl -L "https://github.com/krakjoe/apcu/archive/refs/tags/v$(cat /extension/version).tar.gz" --output /tmp/apcu.tar.gz \
     && tar -xf apcu.tar.gz \
     && cd apcu-* \
     && phpize \
