@@ -1,4 +1,6 @@
-PHP_EXT_DIR=7.4/bullseye
+PHP_VERSION?=7.4
+PHP_DIST?=bullseye
+PHP_EXT_DIR=${PHP_VERSION}/${PHP_DIST}
 DOCKER_IMAGE=etriasnl/php-extensions
 MAKEFLAGS += --warn-undefined-variables --always-make
 .DEFAULT_GOAL := _
