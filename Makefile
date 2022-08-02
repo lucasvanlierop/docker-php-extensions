@@ -2,6 +2,7 @@ PHP_VERSION?=7.4
 PHP_DIST?=bullseye
 PHP_EXT_DIR=${PHP_VERSION}/${PHP_DIST}
 DOCKER_IMAGE=etriasnl/php-extensions
+DOCKER_PROGRESS=auto
 MAKEFLAGS += --warn-undefined-variables --always-make
 .DEFAULT_GOAL := _
 
@@ -13,7 +14,7 @@ ${PHP_EXT_DIR}/%/.releaser:
 	echo "[RELEASING] ${DOCKER_TAG}"
 	${exec_docker} hadolint/hadolint hadolint --ignore DL3059 "${@D}/Dockerfile" --no-fail
 	cp install.sh.dist "${@D}/install.sh"
-	docker buildx build --progress plain -t "${DOCKER_TAG}" --load "${@D}"
+	docker buildx build --progress "${DOCKER_PROGRESS}" -t "${DOCKER_TAG}" --load "${@D}"
 	rm "${@D}/install.sh"
 
 ${PHP_EXT_DIR}/%/.publisher: VERSION=$(subst /,-,${@D})-$(shell cat "${@D}/version" | tr '[:upper:]' '[:lower:]')
