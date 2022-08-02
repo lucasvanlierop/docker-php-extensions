@@ -1,4 +1,4 @@
-PHP_VERSION?=7.4
+PHP_VERSION?=8.1
 PHP_DIST?=bullseye
 PHP_EXT_DIR=${PHP_VERSION}/${PHP_DIST}
 DOCKER_IMAGE=etriasnl/php-extensions
