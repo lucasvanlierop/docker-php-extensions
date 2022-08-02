@@ -13,7 +13,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
-	PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ssl;
+    PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ssl;
 
 RUN docker-php-ext-install imap && \
   cp $(php -r "echo ini_get ('extension_dir');")/imap.so ./

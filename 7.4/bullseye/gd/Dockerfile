@@ -16,8 +16,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd \
-	--with-freetype=/usr \
-	--with-jpeg=/usr
+    --with-freetype=/usr \
+    --with-jpeg=/usr
 
 RUN docker-php-ext-install gd && \
     cp $(php -r "echo ini_get ('extension_dir');")/gd.so ./

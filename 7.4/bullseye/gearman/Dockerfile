@@ -13,15 +13,15 @@ RUN apt-get update && \
 # Install APCU PHP extensions
 RUN cd /tmp \
     && export VERSION=$(cat /extension/version) \
-	&& curl -L https://github.com/php/pecl-networking-gearman/archive/refs/tags/gearman-${VERSION}.tar.gz --output /tmp/gearman.tar.gz \
-	&& tar -xf gearman.tar.gz \
-	&& cd pecl-networking-gearman-gearman-* \
-	&& phpize \
-	&& ./configure \
-	&& make \
-	&& make install \
-	&& cp ./modules/gearman.so /extension \
-	&& rm -rf /tmp/gearman*
+    && curl -L https://github.com/php/pecl-networking-gearman/archive/refs/tags/gearman-${VERSION}.tar.gz --output /tmp/gearman.tar.gz \
+    && tar -xf gearman.tar.gz \
+    && cd pecl-networking-gearman-gearman-* \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cp ./modules/gearman.so /extension \
+    && rm -rf /tmp/gearman*
 
 COPY ./install* /extension/
 

@@ -16,46 +16,46 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp \
-	&& curl -L https://github.com/jasper-software/jasper/releases/download/version-3.0.3/jasper-3.0.3.tar.gz --output /tmp/jasper.tar.gz \
-	&& tar zxvf jasper.tar.gz \
-	&& cd jasper-* \
+    && curl -L https://github.com/jasper-software/jasper/releases/download/version-3.0.3/jasper-3.0.3.tar.gz --output /tmp/jasper.tar.gz \
+    && tar zxvf jasper.tar.gz \
+    && cd jasper-* \
     && mkdir cmake \
-	&& cmake -H./ -B./cmake \
+    && cmake -H./ -B./cmake \
     && cmake --build ./cmake \
     && cmake --build ./cmake --target install \
-	&& rm -rf /tmp/jasper*
+    && rm -rf /tmp/jasper*
 
 RUN cd /tmp \
-	&& curl -L https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz --output /tmp/libde265.tar.gz \
-	&& tar zxvf libde265.tar.gz \
-	&& cd libde265-* \
-	&& ./autogen.sh \
-	&& ./configure \
-	&& make \
-	&& make install \
-	&& rm -rf /tmp/libde265*
+    && curl -L https://github.com/strukturag/libde265/releases/download/v1.0.8/libde265-1.0.8.tar.gz --output /tmp/libde265.tar.gz \
+    && tar zxvf libde265.tar.gz \
+    && cd libde265-* \
+    && ./autogen.sh \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /tmp/libde265*
 
 RUN cd /tmp \
-	&& curl -L https://github.com/strukturag/libheif/releases/download/v1.12.0/libheif-1.12.0.tar.gz --output /tmp/libheif.tar.gz \
-	&& tar zxvf libheif.tar.gz \
-	&& cd libheif-* \
-	&& ./autogen.sh \
-	&& ./configure \
-	&& make \
-	&& make install \
-	&& rm -rf /tmp/libheif*
+    && curl -L https://github.com/strukturag/libheif/releases/download/v1.12.0/libheif-1.12.0.tar.gz --output /tmp/libheif.tar.gz \
+    && tar zxvf libheif.tar.gz \
+    && cd libheif-* \
+    && ./autogen.sh \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /tmp/libheif*
 
 RUN cd /tmp \
     && export VERSION=$(cat /extension/version | cut -d- -f1) \
-	&& curl https://pecl.php.net/get/gmagick-$VERSION.tgz --output /tmp/gmagick.tar.gz \
-	&& tar zxvf gmagick.tar.gz \
-	&& cd gmagick-* \
-	&& phpize \
-	&& ./configure \
-	&& make \
-	&& make install \
-	&& cp ./modules/gmagick.so /extension \
-	&& rm -rf /tmp/gmagick*
+    && curl https://pecl.php.net/get/gmagick-$VERSION.tgz --output /tmp/gmagick.tar.gz \
+    && tar zxvf gmagick.tar.gz \
+    && cd gmagick-* \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cp ./modules/gmagick.so /extension \
+    && rm -rf /tmp/gmagick*
 
 
 RUN ls -al /usr/local/lib
