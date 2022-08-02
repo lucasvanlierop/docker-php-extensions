@@ -11,7 +11,7 @@ RUN apt-get update && \
     libkrb5-dev && \
     rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-configure calendar;
+RUN docker-php-ext-configure calendar
 
 RUN docker-php-ext-install calendar && \
     cp "$(php -r "echo ini_get ('extension_dir');")/calendar.so" ./
