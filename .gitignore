@@ -1,2 +1,2 @@
 .idea
-7.4/bullseye/*/install.sh
+*.*/bullseye/*/install.sh
